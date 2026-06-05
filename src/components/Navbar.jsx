@@ -6,6 +6,7 @@ import {
     Xmark,
 } from "@gravity-ui/icons";
 import Link from "next/link";
+import { Button } from "@heroui/react";
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
@@ -56,9 +57,11 @@ export default function Navbar() {
 
                         {/* Buttons */}
                         <div className="flex items-center gap-4">
-                            <button className="text-sm text-gray-300 hover:text-white">
-                                Sign In
-                            </button>
+                            <Link href={'/auth/signin'}>
+                                <Button className={'text-sm text-gray-300 hover:text-white'}>
+                                    Sign In
+                                </Button>
+                            </Link>
 
                             <button className="bg-indigo-600 hover:bg-indigo-700 transition px-5 py-2 rounded-lg text-sm font-medium">
                                 Get Started

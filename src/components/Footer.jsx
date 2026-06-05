@@ -16,8 +16,8 @@ export default function Footer() {
                         <div>
                             <Link href="/">
                                 <h2 className="text-4xl font-bold">
-                                    <span className="text-blue-500">hire</span>
-                                    <span className="text-orange-500">loop</span>
+                                    <span className="text-blue-500">Hire</span>
+                                    <span className="text-orange-500">Loop</span>
                                 </h2>
                             </Link>
 

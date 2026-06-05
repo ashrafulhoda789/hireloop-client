@@ -23,8 +23,8 @@ export default function Navbar() {
 
                     {/* Logo */}
                     <Link href="/" className="text-2xl font-bold">
-                        <span className="text-blue-500">hire</span>
-                        <span className="text-orange-500">loop</span>
+                        <span className="text-blue-500">Hire</span>
+                        <span className="text-orange-500">Loop</span>
                     </Link>
 
                     {/* Right Side */}

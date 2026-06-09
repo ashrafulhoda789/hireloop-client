@@ -7,6 +7,7 @@ import {
 } from "@gravity-ui/icons";
 import Link from "next/link";
 import { Button } from "@heroui/react";
+import { signOut, useSession } from "@/lib/auth-client";
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
@@ -16,6 +17,14 @@ export default function Navbar() {
         { id: 2, name: "Company", href: "#" },
         { id: 3, name: "Pricing", href: "#" },
     ];
+
+    const { data: session, isPending } = useSession()
+    // console.log(session, isPending);
+    const user = session?.user
+
+    const handleSignOut = async () => {
+        await signOut();
+    }
 
     return (
         <header className="fixed top-0 left-0 w-full z-50 px-4 md:px-8 py-5">
@@ -57,11 +66,23 @@ export default function Navbar() {
 
                         {/* Buttons */}
                         <div className="flex items-center gap-4">
-                            <Link href={'/auth/signin'}>
-                                <Button className={'text-sm text-gray-300 hover:text-white'}>
-                                    Sign In
-                                </Button>
-                            </Link>
+                            {
+                                user ? (
+                                    <>
+                                        Hi, {user.name}!
+                                        <Button onClick={handleSignOut}
+                                            variant="ghost" className={'rounded-md'}>Sign Out</Button>
+                                    </>
+                                )
+                                    :
+                                    (
+                                        <Link href={'/auth/signin'}>
+                                            <Button className={'text-sm text-gray-300 hover:text-white'}>
+                                                Sign In
+                                            </Button>
+                                        </Link>
+                                    )
+                            }
 
                             <button className="bg-indigo-600 hover:bg-indigo-700 transition px-5 py-2 rounded-lg text-sm font-medium">
                                 Get Started
@@ -81,36 +102,51 @@ export default function Navbar() {
                         )}
                     </button>
 
-                </div>
+                </div >
 
                 {/* Mobile Menu */}
-                {isOpen && (
-                    <div className="md:hidden mt-3 backdrop-blur-xl bg-[#111]/95 border border-white/10 rounded-2xl p-6">
-                        <ul className="space-y-5">
-                            {navLinks.map((link) => (
-                                <li key={link.id}>
-                                    <a
-                                        href={link.href}
-                                        className="block text-gray-300 hover:text-white"
-                                    >
-                                        {link.name}
-                                    </a>
-                                </li>
-                            ))}
-                        </ul>
+                {
+                    isOpen && (
+                        <div className="md:hidden mt-3 backdrop-blur-xl bg-[#111]/95 border border-white/10 rounded-2xl p-6">
+                            <ul className="space-y-5">
+                                {navLinks.map((link) => (
+                                    <li key={link.id}>
+                                        <a
+                                            href={link.href}
+                                            className="block text-gray-300 hover:text-white"
+                                        >
+                                            {link.name}
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
 
-                        <div className="flex flex-col gap-3 mt-6">
-                            <button className="border border-white/10 py-2 rounded-lg">
-                                Sign In
-                            </button>
+                            <div className="flex flex-col gap-3 mt-6">
+                                {
+                                    user ? (
+                                        <>
+                                            <Button onClick={handleSignOut}
+                                                variant="ghost" className="border border-white/10 py-2 rounded-lg w-full">Sign Out</Button>
+                                        </>
+                                    )
+                                        :
+                                        (
+                                            <Link href={'/auth/signin'}>
+                                                <Button className={'text-sm text-gray-300 hover:text-white'}>
+                                                    Sign In
+                                                </Button>
+                                            </Link>
+                                        )
+                                }
 
-                            <button className="bg-indigo-600 py-2 rounded-lg">
-                                Get Started
-                            </button>
+                                <button className="bg-indigo-600 py-2 rounded-lg">
+                                    Get Started
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                )}
-            </nav>
-        </header>
+                    )
+                }
+            </nav >
+        </header >
     );
 }

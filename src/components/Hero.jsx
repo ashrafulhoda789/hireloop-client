@@ -9,6 +9,7 @@ import {
     Star
 } from "@gravity-ui/icons";
 import Image from "next/image";
+import { motion } from "motion/react"
 
 export default function Hero() {
 

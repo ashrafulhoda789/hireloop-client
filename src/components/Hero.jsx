@@ -49,9 +49,11 @@ export default function Hero() {
 
                 {/* Top Badge */}
                 <div className="flex justify-center">
-                    <div className="px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-lg text-xs tracking-widest text-gray-300">
+                    <motion.div className="px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-lg text-xs tracking-widest text-gray-300"
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}>
                         🚀 50,000+ NEW JOBS THIS MONTH
-                    </div>
+                    </motion.div>
                 </div>
 
                 {/* Heading */}

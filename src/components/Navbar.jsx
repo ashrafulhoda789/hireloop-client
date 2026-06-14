@@ -1,152 +1,178 @@
 "use client";
 
 import { useState } from "react";
-import {
-    Bars,
-    Xmark,
-} from "@gravity-ui/icons";
 import Link from "next/link";
 import { Button } from "@heroui/react";
-import { signOut, useSession } from "@/lib/auth-client";
+import { useSession, signOut } from "@/lib/auth-client";
 
 export default function Navbar() {
-    const [isOpen, setIsOpen] = useState(false);
-
-    const navLinks = [
-        { id: 1, name: "Browse Jobs", href: "#" },
-        { id: 2, name: "Company", href: "#" },
-        { id: 3, name: "Pricing", href: "#" },
-    ];
-
-    const { data: session, isPending } = useSession()
-    // console.log(session, isPending);
-    const user = session?.user
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const { data: session, isPending } = useSession();
+    console.log("Session data in Navbar:", session, "Is pending:", isPending);
+    const user = session?.user;
 
     const handleSignOut = async () => {
         await signOut();
+
     }
 
+    const navLinks = [
+        {
+            label: "Browse Jobs",
+            href: "/jobs",
+        },
+        {
+            label: "Company",
+            href: "/company",
+        },
+        {
+            label: "Pricing",
+            href: "/pricing",
+        },
+    ];
+
     return (
-        <header className="fixed top-0 left-0 w-full z-50 px-4 md:px-8 py-5">
-            <nav className="max-w-7xl mx-auto">
-                <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl px-6 py-4 flex items-center justify-between">
+        <nav className="sticky top-0 z-50 border-b border-white/10 bg-[#0B0B0F]/80 backdrop-blur-xl">
+            <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+                {/* LOGO */}
+                <Link href="/" className="text-2xl font-bold">
+                    <span className="text-blue-500">Hire</span>
+                    <span className="text-orange-500">Loop</span>
+                </Link>
 
-                    {/* Logo */}
-                    <Link href="/" className="text-2xl font-bold">
-                        <span className="text-blue-500">Hire</span>
-                        <span className="text-orange-500">Loop</span>
-                    </Link>
-
-                    {/* Right Side */}
-                    <div className="hidden md:flex items-center ml-auto">
-
+                {/* RIGHT SIDE */}
+                <div className="flex items-center gap-4">
+                    {/* Desktop Menu */}
+                    <div className="hidden items-center gap-6 md:flex">
                         {/* Nav Links */}
-                        <ul className="flex items-center gap-10 text-sm text-gray-300">
-                            <li>
-                                <a href="#" className="hover:text-white transition">
-                                    Browse Jobs
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="#" className="hover:text-white transition">
-                                    Company
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="#" className="hover:text-white transition">
-                                    Pricing
-                                </a>
-                            </li>
+                        <ul className="flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-3 py-2">
+                            {navLinks.map((link) => (
+                                <li key={link.href}>
+                                    <Link
+                                        href={link.href}
+                                        className="rounded-full px-4 py-2 text-sm font-medium text-gray-300 transition hover:bg-white/10 hover:text-white"
+                                    >
+                                        {link.label}
+                                    </Link>
+                                </li>
+                            ))}
                         </ul>
 
                         {/* Vertical Divider */}
-                        <div className="h-6 w-px bg-white/15 mx-8" />
+                        <div className="h-6 w-px bg-white/20" />
 
-                        {/* Buttons */}
+                        {/* Auth Links */}
                         <div className="flex items-center gap-4">
                             {
-                                user ? (
+                                user ?
                                     <>
                                         Hi, {user.name}!
                                         <Button onClick={handleSignOut}
-                                            variant="ghost" className={'rounded-md'}>Sign Out</Button>
+                                            variant="ghost">Sign Out</Button>
                                     </>
-                                )
                                     :
-                                    (
-                                        <Link href={'/auth/signin'}>
-                                            <Button className={'text-sm text-gray-300 hover:text-white'}>
-                                                Sign In
-                                            </Button>
-                                        </Link>
-                                    )
-                            }
+                                    <Link
+                                        href="/auth/signin"
+                                        className="text-sm font-medium text-violet-400 transition hover:text-violet-300"
+                                    >
+                                        Sign In
+                                    </Link>}
 
-                            <button className="bg-indigo-600 hover:bg-indigo-700 transition px-5 py-2 rounded-lg text-sm font-medium">
+                            <Button
+                                as={Link}
+                                href="/register"
+                                radius="lg"
+                                className="h-11 bg-white px-6 text-sm font-semibold text-black hover:bg-gray-200"
+                            >
                                 Get Started
-                            </button>
+                            </Button>
                         </div>
                     </div>
 
-                    {/* Mobile Menu Button */}
+                    {/* MOBILE MENU BUTTON */}
                     <button
-                        onClick={() => setIsOpen(!isOpen)}
-                        className="md:hidden"
+                        onClick={() => setIsMenuOpen(!isMenuOpen)}
+                        className="flex items-center justify-center rounded-lg p-2 text-white transition hover:bg-white/10 md:hidden"
+                        aria-label="Toggle Menu"
                     >
-                        {isOpen ? (
-                            <Xmark className="w-6 h-6" />
+                        {isMenuOpen ? (
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-6 w-6"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                strokeWidth={2}
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M6 18L18 6M6 6l12 12"
+                                />
+                            </svg>
                         ) : (
-                            <Bars className="w-6 h-6" />
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-6 w-6"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                strokeWidth={2}
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M4 6h16M4 12h16M4 18h16"
+                                />
+                            </svg>
                         )}
                     </button>
+                </div>
+            </div>
 
-                </div >
+            {/* MOBILE MENU */}
+            {isMenuOpen && (
+                <div className="border-t border-white/10 bg-[#0B0B0F] md:hidden">
+                    <div className="space-y-3 px-4 py-6">
+                        {/* Nav Links */}
+                        <ul className="space-y-2">
+                            {navLinks.map((link) => (
+                                <li key={link.href}>
+                                    <Link
+                                        href={link.href}
+                                        className="block rounded-xl px-4 py-3 text-base font-medium text-gray-300 transition hover:bg-white/5 hover:text-white"
+                                        onClick={() => setIsMenuOpen(false)}
+                                    >
+                                        {link.label}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
 
-                {/* Mobile Menu */}
-                {
-                    isOpen && (
-                        <div className="md:hidden mt-3 backdrop-blur-xl bg-[#111]/95 border border-white/10 rounded-2xl p-6">
-                            <ul className="space-y-5">
-                                {navLinks.map((link) => (
-                                    <li key={link.id}>
-                                        <a
-                                            href={link.href}
-                                            className="block text-gray-300 hover:text-white"
-                                        >
-                                            {link.name}
-                                        </a>
-                                    </li>
-                                ))}
-                            </ul>
+                        {/* Divider */}
+                        <div className="border-t border-white/10 pt-4">
+                            <div className="flex flex-col gap-3">
+                                <Link
+                                    href="/login"
+                                    className="rounded-xl px-4 py-3 text-base font-medium text-violet-400 transition hover:bg-white/5"
+                                    onClick={() => setIsMenuOpen(false)}
+                                >
+                                    Sign In
+                                </Link>
 
-                            <div className="flex flex-col gap-3 mt-6">
-                                {
-                                    user ? (
-                                        <>
-                                            <Button onClick={handleSignOut}
-                                                variant="ghost" className="border border-white/10 py-2 rounded-lg w-full">Sign Out</Button>
-                                        </>
-                                    )
-                                        :
-                                        (
-                                            <Link href={'/auth/signin'}>
-                                                <Button className={'text-sm text-gray-300 hover:text-white'}>
-                                                    Sign In
-                                                </Button>
-                                            </Link>
-                                        )
-                                }
-
-                                <button className="bg-indigo-600 py-2 rounded-lg">
+                                <Button
+                                    as={Link}
+                                    href="/register"
+                                    className="bg-white font-semibold text-black"
+                                    radius="lg"
+                                >
                                     Get Started
-                                </button>
+                                </Button>
                             </div>
                         </div>
-                    )
-                }
-            </nav >
-        </header >
+                    </div>
+                </div>
+            )}
+        </nav>
     );
 }

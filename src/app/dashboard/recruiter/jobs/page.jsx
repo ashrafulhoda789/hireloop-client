@@ -3,7 +3,7 @@ import React from 'react';
 const RecruiterJobs = () => {
     return (
         <div>
-            Recruiter/company All Jobs 
+            Recruiter/company manage All Jobs 
         </div>
     );
 };

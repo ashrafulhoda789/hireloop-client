@@ -5,7 +5,7 @@ import { Card, Button, Link, TextField, Label, InputGroup, Input } from "@heroui
 import { Radio, RadioGroup } from "@heroui/react";
 import { Eye, EyeSlash, Person, At, ShieldKeyhole } from "@gravity-ui/icons";
 import { signUp } from "@/lib/auth-client";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function SignupPage() {
     const [name, setName] = useState("");
@@ -13,6 +13,9 @@ export default function SignupPage() {
     const [password, setPassword] = useState("");
     const [role, setRole] = useState("seeker");
    
+    const router = useRouter();
+    const searchParams = useSearchParams()
+    const redirectTo = searchParams.get("redirect") || '/';
 
     const [isVisible, setIsVisible] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -20,7 +23,7 @@ export default function SignupPage() {
     const [success, setSuccess] = useState("");
 
     const toggleVisibility = () => setIsVisible(!isVisible);
-    const router = useRouter();
+    
 
     const handleSignup = async (e) => {
         e.preventDefault();
@@ -35,7 +38,7 @@ export default function SignupPage() {
                 password,
                 name,
                 role,
-                callbackURL: "/",
+                
             });
 
             if (authError) {
@@ -46,7 +49,7 @@ export default function SignupPage() {
                 setName("");
                 setEmail("");
                 setPassword("");
-                router.push('/auth/signin')
+                router.push(redirectTo)
             }
         } catch (err) {
             setError("An unexpected network error occurred.");
@@ -142,7 +145,7 @@ export default function SignupPage() {
 
                         {/* role selection */}
                         <div className="flex flex-col gap-4">
-                            <Label>Subscription plan</Label>
+                            <Label>Your Role</Label>
                             <RadioGroup defaultValue="seeker" name="role" onChange={(value => setRole(value))} orientation="horizontal">
                                 <Radio  value="seeker">
                                     <Radio.Control>
@@ -194,7 +197,7 @@ export default function SignupPage() {
                         <div className="text-center pt-4 border-t border-white/10 text-sm text-white/60">
                             Already have an account?{" "}
                             <Link
-                                href="/auth/signin"
+                                href={`/auth/signin?redirect=${redirectTo}`}
                                 className="text-cyan-400 font-medium"
                             >
                                 Sign in

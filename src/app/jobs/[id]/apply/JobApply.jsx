@@ -35,7 +35,7 @@ const JobApply = ({ job, applicant }) => {
             ...formData
         };
 
-        console.log('Submitting Application:', submissionData);
+        // console.log('Submitting Application:', submissionData);
         // Handle your API submission here
         const res = await submitApplication(submissionData);
         if(res.insertedId){
@@ -45,7 +45,7 @@ const JobApply = ({ job, applicant }) => {
     };
 
     return (
-        <div className="max-w-xl mx-auto p-6 bg-white dark:bg-zinc-900 rounded-xl shadow-sm border border-zinc-200 dark:border-zinc-800">
+        <div className="max-w-xl mx-auto my-10 p-6 bg-white dark:bg-zinc-900 rounded-xl shadow-sm border border-zinc-200 dark:border-zinc-800">
             {/* Header Section */}
             <div className="mb-6">
                 <span className="text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wider">

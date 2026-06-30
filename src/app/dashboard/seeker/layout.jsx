@@ -1,7 +1,7 @@
 import { requireRole } from '@/lib/core/session';
 
-const RecruiterLayout = async({ children }) => {
-    await requireRole('recruiter')
+const SeekerLayout = async ({ children }) => {
+    await requireRole('seeker')
     return (
         <div className='flex gap-10 min-h-screen'>
             <div className='flex-1'>
@@ -11,4 +11,4 @@ const RecruiterLayout = async({ children }) => {
     );
 };
 
-export default RecruiterLayout;
+export default SeekerLayout;

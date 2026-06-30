@@ -22,12 +22,12 @@ export async function DashboardSidebar() {
     ]
 
     const seekerNavLinks = [
-        { icon: House, href: "/dashboard/candidate", label: "Dashboard" },
-        { icon: MagnifierPlus, href: "/dashboard/candidate/jobs", label: "Jobs" },
-        { icon: Bookmark, href: "/dashboard/candidate/saved-jobs", label: "Saved Jobs" },
-        { icon: FileText, href: "/dashboard/candidate/applications", label: "Applications" },
-        { icon: CreditCard, href: "/dashboard/candidate/billing", label: "Billing" },
-        { icon: Gear, href: "/dashboard/candidate/settings", label: "Settings" },
+        { icon: House, href: "/dashboard/seeker", label: "Dashboard" },
+        { icon: MagnifierPlus, href: "/dashboard/seeker/jobs", label: "Jobs" },
+        { icon: Bookmark, href: "/dashboard/seeker/saved-jobs", label: "Saved Jobs" },
+        { icon: FileText, href: "/dashboard/seeker/applications", label: "Applications" },
+        { icon: CreditCard, href: "/dashboard/seeker/billing", label: "Billing" },
+        { icon: Gear, href: "/dashboard/seeker/settings", label: "Settings" },
     ]
 
     const navLinksMap = {
